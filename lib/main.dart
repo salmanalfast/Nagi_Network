@@ -18,41 +18,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (BuildContext context) => ThemeCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => Counter(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => NewCounterCubit(),
-        )
-      ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        bloc: ThemeCubit(),
-        
-        builder: (context, state) {
-          return MaterialApp(
-            // theme: ThemeData.dark(),
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
-            themeMode: state,
-            home: HomeBloc(),
-          );
-        },
-        // buildWhen: (previous, current) {
-        //   if (current != previous) {
-        //     // ThemeData.dark();
-        //     return true;
-        //   }
-        //   else{
-        //     // ThemeData.light();
-        //     return false;
-        //   }
-        // },
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (BuildContext context) => ThemeCubit(),
       ),
+      BlocProvider(
+        create: (BuildContext context) => Counter(),
+      ),
+      BlocProvider(
+        create: (BuildContext context) => NewCounterCubit(),
+      )
+    ], child: Landing());
+  }
+}
+
+class Landing extends StatelessWidget {
+  const Landing({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeCubit, bool>(
+      bloc: BlocProvider.of<ThemeCubit>(context),
+      // bloc: ThemeCubit(),
+      builder: (context, state) {
+        debugPrint(state.toString());
+        return MaterialApp(
+          // theme: ThemeData.dark(),
+          // theme: ThemeData.light(),
+          // darkTheme: ThemeData.dark(),
+          theme: state == true ? ThemeData.dark() : ThemeData.light(),
+          home: HomeBloc(),
+        );
+      },
+      // buildWhen: (previous, current) {
+      //   if (current != previous) {
+      //     // ThemeData.dark();
+      //     return true;
+      //   }
+      //   else{
+      //     // ThemeData.light();
+      //     return false;
+      //   }
+      // },
     );
   }
 }

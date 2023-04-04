@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-class ThemeCubit extends Cubit<ThemeMode> {
-  ThemeCubit() : super(ThemeMode.light);
+class ThemeCubit extends Cubit<bool> {
+  ThemeCubit() : super(true);
 
   void changeTheme() {
-    emit(state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
-    print("$state");
+    emit(state == true ? false : true);
+    debugPrint(state.toString());
   }
 }
