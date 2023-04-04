@@ -7,17 +7,25 @@ import 'package:nagi_network/cubit/theme.dart';
 class HomeBloc extends StatelessWidget {
   HomeBloc({super.key});
   final Counter counter = Counter();
-  final ThemeCubit themeCubit = ThemeCubit();
+  // final ThemeCubit themeCubit = ThemeCubit();
   @override
   Widget build(BuildContext context) {
     // Counter counter = BlocProvider.of(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              themeCubit.changeTheme();
-            },
-            icon: Icon(Icons.format_paint_rounded)),
+        leading: BlocBuilder<ThemeCubit, bool>(
+          // Definisikan bloc yang sama
+          bloc: BlocProvider.of<ThemeCubit>(context),
+          builder: (context, state) {
+            return IconButton(
+                onPressed: () {
+                  // debugPrint(state.toString());
+                  // themeCubit.changeTheme();
+                  BlocProvider.of<ThemeCubit>(context).changeTheme();
+                },
+                icon: Icon(Icons.format_paint_rounded));
+          },
+        ),
       ),
       floatingActionButton: IconButton(
           onPressed: () {
